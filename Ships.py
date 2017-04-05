@@ -2,18 +2,14 @@ from Coordinates import *
 from Constants import *
 
 class Ship:
-    validL = [Constants.ship1length, Constants.ship2length, Constants.ship3length, Constants.ship4length, Constants.ship5length]
-
     #constructor
-    def __init__(self, startCoord, endCoord, length):
-        if self.validLength(length) == False:
+    def __init__(self, startCoord, endCoord):
+        if self.validLength(self.dist(startCoord,endCoord)) == False:
             raise InvalidShipException("Ship length error")
-        elif self.dist(startCoord, endCoord) != length:
-            raise InvalidShipException("Coordinate length doesn't match length. Expected:" + str(length) +". Actual:" + str(self.dist(startCoord, endCoord)))
         else:
             self.start = startCoord
             self.end = endCoord
-            self.length = length
+            self.length = self.dist(startCoord, endCoord)
             self.shipCoord = []
             self.makeShip()
 
@@ -27,14 +23,14 @@ class Ship:
         elif self.start.getY() == self.start.getY():
             l = self.least(self.start.getX(), self.end.getX())
             gr = self.greater(self.start.getX(), self.end.getX())
-            self.shipCoord = [ [xi,self.start.getY()] for xi in range(l, gr+1)]
+            self.shipCoord = [[xi,self.start.getY()] for xi in range(l, gr+1)]
 
         else:
             raise InvalidShipException("Ship must be horizontal or vertical")
 
     # used for exception where the length specified is not the equal to the length between two points
     def dist(self, startCoord, endCoord):
-        if startCoord.getX() == startCoord.getX():
+        if startCoord.getX() == endCoord.getX():
             return abs(startCoord.getY() - endCoord.getY())+1
         else:
             return abs(startCoord.getX() - endCoord.getX())+1
@@ -58,8 +54,8 @@ class Ship:
         return self.length
 
     def validLength(self, l):
-        if l in self.validL:
-            self.validL.remove(l)
+        validL = [Constants.ship1length, Constants.ship2length, Constants.ship3length, Constants.ship4length, Constants.ship5length]
+        if l in validL:
             return True
         else:
             return False

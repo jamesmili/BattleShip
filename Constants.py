@@ -1,4 +1,4 @@
-
+#repeating constants used by all modules
 MAX_X = 10
 MAX_Y = 8
 MIN_X = 0
